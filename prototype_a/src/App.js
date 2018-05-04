@@ -13,7 +13,7 @@ class App extends Component {
     byInterval: {
       money: 0, expectedMoney: 0, startTime: undefined
     },
-    byUpdateFrame: {
+    byAnimationFrame: {
       money: 0, expectedMoney: 0, startTime: undefined
     }
   }
@@ -35,6 +35,7 @@ class App extends Component {
     const engine = new Engine();
     this.startByTimer(engine.bindClockTickByInterval, 'byInterval');
     this.startByTimer(engine.bindClockTickByTimeout, 'byTimeout');
+    this.startByTimer(engine.bindClockTickByAnimationFrame, 'byAnimationFrame');
   }
 
   render() {
@@ -60,6 +61,12 @@ class App extends Component {
                 <CardText id='moneys'>Expected money: {this.state.byInterval.expectedMoney},
                   Actual money: {this.state.byInterval.money},
                   Diff: {this.state.byInterval.expectedMoney - this.state.byInterval.money}</CardText>
+              </Card>
+              <Card>
+                <CardTitle>By Animation Frame</CardTitle>
+                <CardText id='moneys'>Expected money: {this.state.byAnimationFrame.expectedMoney},
+                  Actual money: {this.state.byAnimationFrame.money},
+                  Diff: {this.state.byAnimationFrame.expectedMoney - this.state.byAnimationFrame.money}</CardText>
               </Card>
             </Col>
           </Row>

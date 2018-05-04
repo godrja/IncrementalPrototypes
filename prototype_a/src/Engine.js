@@ -17,6 +17,22 @@ class Engine {
     setInterval(callback, 100);
   }
 
+  bindClockTickByAnimationFrame(callback) {
+    var lastTick = null;
+
+    function tick(timestamp) {
+      if (!lastTick) { lastTick = timestamp; }
+
+      if (timestamp - lastTick >= 100) {
+        callback();
+        lastTick = timestamp;
+      }
+      requestAnimationFrame(tick);
+    }
+
+    requestAnimationFrame(tick)
+  }
+
 }
 
 export default Engine;
