@@ -1,30 +1,69 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import Engine from './Engine';
 
-import { Button, Container, Row, Col } from 'reactstrap';
+import { Button, Container, Row, Col, Card, CardText, CardTitle } from 'reactstrap';
 
 class App extends Component {
+  state = {
+    byTimeout: {
+      money: 0, expectedMoney: 0, startTime: undefined
+    },
+    byInterval: {
+      money: 0, expectedMoney: 0, startTime: undefined
+    },
+    byUpdateFrame: {
+      money: 0, expectedMoney: 0, startTime: undefined
+    }
+  }
+
+
+  startByTimer(timer, sliceName) {
+    timer(() => {
+      const sliceState = this.state[sliceName];
+      this.setState({[sliceName]: {
+        startTime: sliceState.startTime ? sliceState.startTime : Date.now(),
+        money: sliceState.money + 1,
+        expectedMoney: Math.round((Date.now() - sliceState.startTime) / 100 + 1),
+      }})
+    });
+  }
+
+
+  componentDidMount() {
+    const engine = new Engine();
+    this.startByTimer(engine.bindClockTickByInterval, 'byInterval');
+    this.startByTimer(engine.bindClockTickByTimeout, 'byTimeout');
+  }
+
   render() {
+
     return (
       <div className="App">
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
           <h1 className="App-title">Incremental Prototype A</h1>
         </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-          Here is my first attempt to make a react application.
-          <br/>Hello!
-
-          <Container>
-            <Row>
-              <Col>
-                <Button color="primary">Click me</Button>{' '}
-              </Col>
-            </Row>
-          </Container>
-        </p>
+        <Container>
+          <Row>
+            <Col>
+              <Button color="primary">Click me</Button>{' '}
+              <Card>
+                <CardTitle>By Timeout</CardTitle>
+                <CardText id='moneys'>Expected money: {this.state.byTimeout.expectedMoney},
+                  Actual money: {this.state.byTimeout.money},
+                  Diff: {this.state.byTimeout.expectedMoney - this.state.byTimeout.money}</CardText>
+              </Card>
+              <Card>
+                <CardTitle>By Interval</CardTitle>
+                <CardText id='moneys'>Expected money: {this.state.byInterval.expectedMoney},
+                  Actual money: {this.state.byInterval.money},
+                  Diff: {this.state.byInterval.expectedMoney - this.state.byInterval.money}</CardText>
+              </Card>
+            </Col>
+          </Row>
+        </Container>
       </div>
     );
   }
