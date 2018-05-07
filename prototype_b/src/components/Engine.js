@@ -23,14 +23,14 @@ class Engine {
     function tick(timestamp) {
       if (!lastTick) { lastTick = timestamp; }
 
-      if (timestamp - lastTick >= 100) {
+      const delta = (timestamp - lastTick - 100) % 100;
+      if (delta >= 0) {
         callback();
-        lastTick = timestamp;
+        lastTick = timestamp - delta;
       }
       requestAnimationFrame(tick);
     }
-
-    requestAnimationFrame(tick)
+    requestAnimationFrame(tick);
   }
 
 }

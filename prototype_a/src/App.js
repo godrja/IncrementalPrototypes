@@ -5,6 +5,8 @@ import Engine from './Engine';
 
 import { Button, Container, Row, Col, Card, CardText, CardTitle } from 'reactstrap';
 
+const diffMoney = sliceName => sliceName.expectedMoney - sliceName.money;
+
 class App extends Component {
   state = {
     byTimeout: {
@@ -38,8 +40,8 @@ class App extends Component {
     this.startByTimer(engine.bindClockTickByAnimationFrame, 'byAnimationFrame');
   }
 
-  render() {
 
+  render() {
     return (
       <div className="App">
         <header className="App-header">
@@ -54,19 +56,19 @@ class App extends Component {
                 <CardTitle>By Timeout</CardTitle>
                 <CardText id='moneys'>Expected money: {this.state.byTimeout.expectedMoney},
                   Actual money: {this.state.byTimeout.money},
-                  Diff: {this.state.byTimeout.expectedMoney - this.state.byTimeout.money}</CardText>
+                  Diff: {diffMoney(this.state.byTimeout)}</CardText>
               </Card>
               <Card>
                 <CardTitle>By Interval</CardTitle>
                 <CardText id='moneys'>Expected money: {this.state.byInterval.expectedMoney},
                   Actual money: {this.state.byInterval.money},
-                  Diff: {this.state.byInterval.expectedMoney - this.state.byInterval.money}</CardText>
+                  Diff: {diffMoney(this.state.byInterval.expectedMoney)}</CardText>
               </Card>
               <Card>
                 <CardTitle>By Animation Frame</CardTitle>
                 <CardText id='moneys'>Expected money: {this.state.byAnimationFrame.expectedMoney},
                   Actual money: {this.state.byAnimationFrame.money},
-                  Diff: {this.state.byAnimationFrame.expectedMoney - this.state.byAnimationFrame.money}</CardText>
+                  Diff: {diffMoney(this.state.byAnimationFrame.expectedMoney)}</CardText>
               </Card>
             </Col>
           </Row>
