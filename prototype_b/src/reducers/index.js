@@ -1,10 +1,5 @@
-import perfReducer from './perf.js'
+import { combineReducers } from 'redux'
+import perf from './perf.js'
+import tick from './tick.js'
 
-export default (state, action) => {
-  switch (action.type) {
-    default:
-      return {
-        'perf': perfReducer(state, action)
-      }
-  }
-}
+export default combineReducers({ tick, perf })

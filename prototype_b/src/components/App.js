@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux'
 import logo from './logo.svg';
 import './App.css';
 
@@ -16,6 +17,7 @@ class App extends Component {
         <Container>
           <Row>
             <Col>
+              Tick count: {this.props.tickCount}
               <Button color="primary">Click me</Button>{' '}
               <PerfDisplay title='By Timeout' sliceName='byTimeout'/>
               <PerfDisplay title='By Interval' sliceName='byInterval'/>
@@ -27,5 +29,7 @@ class App extends Component {
     );
   }
 }
-
-export default App;
+const mapStateToProps = (state) => ({
+  tickCount: state.tick
+})
+export default connect(mapStateToProps)(App);

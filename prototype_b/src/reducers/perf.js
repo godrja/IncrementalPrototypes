@@ -1,9 +1,22 @@
 import { GAME_TICK } from '../actions';
 
 const perfReducer = (state, action) => {
+  if (!state) {
+    state = {
+      byTimeout: {
+        money: 0, expectedMoney: 0, startTime: undefined
+      },
+      byInterval: {
+        money: 0, expectedMoney: 0, startTime: undefined
+      },
+      byAnimationFrame: {
+        money: 0, expectedMoney: 0, startTime: undefined
+      }
+    }
+  }
   switch (action.type) {
     case GAME_TICK:
-      const sliceState = state.perf[action.sliceName];
+      const sliceState = state[action.sliceName];
       const newSlice = {
         [action.sliceName]: {
           startTime: sliceState.startTime ? sliceState.startTime : Date.now(),
@@ -11,19 +24,9 @@ const perfReducer = (state, action) => {
           expectedMoney: Math.round((Date.now() - sliceState.startTime) / 100 + 1),
         }
       }
-      return Object.assign({}, state.perf, newSlice);
+      return Object.assign({}, state, newSlice);
     default:
-      return {
-        byTimeout: {
-          money: 0, expectedMoney: 0, startTime: undefined
-        },
-        byInterval: {
-          money: 0, expectedMoney: 0, startTime: undefined
-        },
-        byAnimationFrame: {
-          money: 0, expectedMoney: 0, startTime: undefined
-        }
-      }
+      return state;
   }
 }
 
