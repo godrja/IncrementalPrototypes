@@ -3,22 +3,9 @@ import logo from './logo.svg';
 import './App.css';
 
 import { Button, Container, Row, Col } from 'reactstrap';
-import PerfDisplay from './perfDisplay.js'
+import PerfDisplay from './PerfDisplay.js'
 
 class App extends Component {
-  state = {
-    byTimeout: {
-      money: 0, expectedMoney: 0, startTime: undefined
-    },
-    byInterval: {
-      money: 0, expectedMoney: 0, startTime: undefined
-    },
-    byAnimationFrame: {
-      money: 0, expectedMoney: 0, startTime: undefined
-    }
-  }
-
-
   render() {
     return (
       <div className="App">
