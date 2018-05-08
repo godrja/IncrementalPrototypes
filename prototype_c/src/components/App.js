@@ -12,7 +12,7 @@ class App extends Component {
       <div className="App">
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Incremental Prototype A</h1>
+          <h1 className="App-title">Incremental Prototype C (Mechanics)</h1>
         </header>
         <Container>
           <Row>
@@ -31,5 +31,5 @@ class App extends Component {
 }
 const mapStateToProps = (state) => ({
   tickCount: state.tick
-})
+});
 export default connect(mapStateToProps)(App);
