@@ -4,7 +4,6 @@ import logo from './logo.svg';
 import './App.css';
 
 import { Button, Container, Row, Col } from 'reactstrap';
-import PerfDisplay from './PerfDisplay.js'
 
 class App extends Component {
   render() {
@@ -19,9 +18,6 @@ class App extends Component {
             <Col>
               Tick count: {this.props.tickCount}
               <Button color="primary">Click me</Button>{' '}
-              <PerfDisplay title='By Timeout' sliceName='byTimeout'/>
-              <PerfDisplay title='By Interval' sliceName='byInterval'/>
-              <PerfDisplay title='By Animation Frame' sliceName='byAnimationFrame'/>
             </Col>
           </Row>
         </Container>
@@ -29,7 +25,6 @@ class App extends Component {
     );
   }
 }
-const mapStateToProps = (state) => ({
-  tickCount: state.tick
-});
+const mapStateToProps = (state) => ({ tickCount: state.tick });
+
 export default connect(mapStateToProps)(App);

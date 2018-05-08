@@ -2,7 +2,7 @@ import { GAME_TICK } from '../actions'
 
 const startTicking = (store) => {
   const intervalId = setInterval(() => {
-    store.dispatch({type: GAME_TICK, sliceName: 'byInterval'});
+    store.dispatch({ type: GAME_TICK });
   }, 100);
   return {
     startTicking: () => { throw new Error('GameTimer is already ticking') },
