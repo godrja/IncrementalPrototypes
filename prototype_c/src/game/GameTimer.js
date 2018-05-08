@@ -1,9 +1,8 @@
-import { GAME_TICK } from '../actions'
-
-const startTicking = (store) => {
+const startTicking = (callback, interval = 100) => {
   const intervalId = setInterval(() => {
-    store.dispatch({ type: GAME_TICK });
-  }, 100);
+    // TODO: Make sure that if the interval is longer than (interval * 2) - 1 then multiple tick events get triggered
+    callback();
+  }, interval);
   return {
     startTicking: () => { throw new Error('GameTimer is already ticking') },
     stopTicking: () => {
