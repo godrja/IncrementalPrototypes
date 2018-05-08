@@ -1,7 +1,7 @@
 import { GAME_TICK } from '../actions'
 
 const startTicking = (store) => {
-  var intervalId = setInterval(() => {
+  const intervalId = setInterval(() => {
     store.dispatch({type: GAME_TICK, sliceName: 'byInterval'});
   }, 100);
   return {
@@ -10,6 +10,6 @@ const startTicking = (store) => {
       clearInterval(intervalId);
     }
   }
-}
+};
 
 export default { startTicking }

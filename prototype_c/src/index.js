@@ -7,13 +7,13 @@ import registerServiceWorker from './registerServiceWorker';
 import { createStore } from 'redux'
 import { Provider } from 'react-redux'
 import rootReducer from './reducers'
-import Engine, { GameTimer } from './game/Engine.js'
-import GameTimerFun from './game/GameTimer.js'
-import { GAME_TICK } from './actions'
+import GameTimer from './game/GameTimer.js'
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 const store = createStore(rootReducer);
+
+GameTimer.startTicking(store);
 
 ReactDOM.render(
   <Provider store={store}>
@@ -23,16 +23,3 @@ ReactDOM.render(
 );
 
 registerServiceWorker();
-
-const startByTimer = (timer, sliceName) => {
-  timer(() => store.dispatch({type: GAME_TICK, sliceName: sliceName}));
-}
-
-const engine = new Engine();
-//startByTimer(engine.bindClockTickByInterval, 'byInterval');
-//new GameTimer(store).startTicking();
-const timer = GameTimerFun.startTicking(store);
-startByTimer(engine.bindClockTickByTimeout, 'byTimeout');
-startByTimer(engine.bindClockTickByAnimationFrame, 'byAnimationFrame');
-timer.stopTicking();
-timer.stopTicking();
