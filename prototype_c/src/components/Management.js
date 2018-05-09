@@ -40,7 +40,7 @@ class Management extends React.Component {
           </NavItem>
         </Nav>
         <TabContent activeTab={this.state.activeTab}>
-          <TabPane tabId="1">
+          <TabPane tabId="people">
             <h1>List of all people</h1>
             <ListGroup>
               {this.props.people.map((person, i) =>
