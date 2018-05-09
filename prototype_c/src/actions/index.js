@@ -1,1 +1,2 @@
-export const GAME_TICK = 'GAME_TICK'
+export const GAME_TICK = 'GAME_TICK';
+

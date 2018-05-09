@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux'
 import logo from './logo.svg';
 import './App.css';
 
 import { Button, Container, Row, Col } from 'reactstrap';
+import Management from './Management.js'
 
 class App extends Component {
   render() {
@@ -16,8 +16,12 @@ class App extends Component {
         <Container>
           <Row>
             <Col>
-              Tick count: {this.props.tickCount}
-              <Button color="primary">Click me</Button>{' '}
+              <Button color="primary">Log state</Button>{' '}
+            </Col>
+          </Row>
+          <Row>
+            <Col>
+              <Management/>
             </Col>
           </Row>
         </Container>
@@ -25,6 +29,5 @@ class App extends Component {
     );
   }
 }
-const mapStateToProps = (state) => ({ tickCount: state.tick });
 
-export default connect(mapStateToProps)(App);
+export default App;
