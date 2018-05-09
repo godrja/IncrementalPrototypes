@@ -7,13 +7,12 @@ class Management extends React.Component {
   constructor(props) {
     super(props);
 
-    this.toggle = this.toggle.bind(this);
     this.state = {
-      activeTab: '1'
+      activeTab: 'people'
     };
   }
 
-  toggle(tab) {
+  selectTab(tab) {
     if (this.state.activeTab !== tab) {
       this.setState({
         activeTab: tab
@@ -27,15 +26,15 @@ class Management extends React.Component {
         <Nav tabs>
           <NavItem>
             <NavLink
-              className={this.state.activeTab === '1' ? 'active' : null}
-              onClick={() => { this.toggle('1'); }}>
-              Tab 1
+              className={this.state.activeTab === 'people' ? 'active' : null}
+              onClick={ this.selectTab.bind(this, 'people') }>
+              People
             </NavLink>
           </NavItem>
           <NavItem>
             <NavLink
               className={this.state.activeTab === 'dev' ? 'active' : null}
-              onClick={() => { this.toggle('dev'); }}>
+              onClick={ this.selectTab.bind(this, 'dev') }>
               Development
             </NavLink>
           </NavItem>
@@ -44,7 +43,8 @@ class Management extends React.Component {
           <TabPane tabId="1">
             <h1>List of all people</h1>
             <ListGroup>
-              {this.props.people.map((person, i) => <ListGroupItem key={i}>{person.name}</ListGroupItem>)}
+              {this.props.people.map((person, i) =>
+                <ListGroupItem key={i}>{person.name}</ListGroupItem>)}
             </ListGroup>
           </TabPane>
           <TabPane tabId="dev">
