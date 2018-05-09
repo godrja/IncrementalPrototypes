@@ -6,7 +6,6 @@ import { createStore, applyMiddleware } from 'redux'
 import { Provider } from 'react-redux'
 import { createLogger } from 'redux-logger'
 import 'bootstrap/dist/css/bootstrap.min.css';
-import 'bootstrap/dist/css/bootstrap.css';
 
 import App from './components/App.js';
 import rootReducer from './reducers'
@@ -36,9 +35,3 @@ ReactDOM.render(
 );
 
 registerServiceWorker();
-
-
-
-
-function test() { console.log('test'); }
-export { test };
