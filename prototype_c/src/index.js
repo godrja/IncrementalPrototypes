@@ -12,14 +12,17 @@ import App from './components/App.js';
 import rootReducer from './reducers'
 import GameTimer from './game/GameTimer.js'
 import { GAME_TICK } from "./actions";
+import { addPerson } from "./actions/person";
 
 const logger = createLogger({
-   predicate: (getState, action) => { return action.type !== 'GAME_TICK'; }
+   'predicate': (getState, action) => { return action.type !== 'GAME_TICK'; }
 });
 const store = createStore(
     rootReducer,
     applyMiddleware(logger)
 );
+
+store.dispatch(addPerson({name: 'Fyodor Ignatyevitch'}));
 
 GameTimer.startTicking(() => {
   store.dispatch({ type: GAME_TICK });
