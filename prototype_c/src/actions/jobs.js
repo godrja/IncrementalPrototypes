@@ -9,18 +9,15 @@ export const RESET_JOB = 'TYPE_JOB_RESET';
  * @param peopleIds array Array of people ids that should be assigned to this job
  * @returns {{type: string, doLog: boolean, payload: {type: *, peopleIds: *}}}
  */
-export function addJob (type, peopleIds) {
+export function addJob(type, peopleIds) {
   check.assert.array(peopleIds);
   return {
-    type: ADD_JOB, doLog: true, payload:
-      {
-        type, peopleIds
-      }
+    type: ADD_JOB, doLog: true, payload: {type, peopleIds}
   }
 }
 
 export function progressJob(jobId, units = 1) {
-  return {type: PROGRESS_JOB, payload: { jobId, units }}
+  return {type: PROGRESS_JOB, payload: {jobId, units}}
 }
 
 export function resetJob(jobId) {

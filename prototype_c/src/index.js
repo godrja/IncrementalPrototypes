@@ -21,11 +21,14 @@ const logger = createLogger({
 });
 const store = createStore(
   rootReducer,
+  loadGame(),
   applyMiddleware(logger)
 );
 
-store.dispatch(addPerson('Fyodor', 'Ignatyevitch'));
-store.dispatch(addJob('gathering', [store.getState().people[0].id]));
+if (!store.getState().people || !store.getState().people.length) {
+  store.dispatch(addPerson('Fyodor', 'Ignatyevitch'));
+  store.dispatch(addJob('gathering', [store.getState().people[0].id]));
+}
 
 function progressJobs(state) {
   state.jobs.forEach((job) => {
@@ -45,11 +48,25 @@ function completeJobs(state) {
   });
 }
 
+function saveGame(state) {
+  if (state.tick % 120) return;
+
+  localStorage.setItem('gameState', JSON.stringify(state));
+  console.log('game saved')
+}
+
+function loadGame() {
+  const state = localStorage.getItem('gameState');
+  // const state = "{}";
+  return state ? JSON.parse(state) : {};
+}
+
 GameTimer.startTicking(() => {
   store.dispatch({type: GAME_TICK});
   const state = store.getState();
   progressJobs(state);
-  completeJobs(state)
+  completeJobs(state);
+  saveGame(state);
 });
 
 ReactDOM.render(
