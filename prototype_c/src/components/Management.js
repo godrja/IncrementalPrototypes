@@ -1,7 +1,24 @@
 import React from 'react';
-import {Nav, NavItem, NavLink, TabContent, TabPane, ListGroup, ListGroupItem} from 'reactstrap';
-import './Management.css'
+import {Nav, NavItem, NavLink, TabContent, TabPane, ListGroup, ListGroupItem, Card, CardTitle} from 'reactstrap';
 import {connect} from "react-redux";
+import PropTypes from 'prop-types';
+
+import './Management.css'
+import {person} from "../game";
+
+function PersonProfile(props) {
+  const job = person(props.person).currentJob(props.jobs);
+  return (
+    <Card>
+      <CardTitle>{props.person.name}</CardTitle>
+      <div>He is working very hard on {job.type} ({job.done} ticks completed}</div>
+    </Card>
+  )
+}
+PersonProfile.propTypes = {
+  person: PropTypes.object.isRequired,
+  jobs: PropTypes.array.isRequired
+};
 
 class Management extends React.Component {
   constructor(props) {
@@ -44,7 +61,7 @@ class Management extends React.Component {
             <h1>List of all people</h1>
             <ListGroup>
               {this.props.people.map((person, i) =>
-                <ListGroupItem key={i}>{person.name}</ListGroupItem>)}
+                <ListGroupItem key={i}><PersonProfile person={person} jobs={this.props.jobs}/></ListGroupItem>)}
             </ListGroup>
           </TabPane>
           <TabPane tabId="dev">
@@ -57,6 +74,6 @@ class Management extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => ({ tickCount: state.tick, people: state.people });
+const mapStateToProps = (state) => ({ tickCount: state.tick, people: state.people, jobs: state.jobs });
 
 export default connect(mapStateToProps)(Management);

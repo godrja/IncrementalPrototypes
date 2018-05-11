@@ -1,12 +1,16 @@
-import { ADD_PERSON } from '../actions/person.js';
+import {ADD_PERSON} from '../actions/person';
 
-// const spawnPeople = () => ({name: 'Fyodor Ignatyevitch'});
-// const defaultPeople = [spawnPeople()];
+const person = (payload) => {
+  return {
+    id: payload.id,
+    name: payload.name
+  };
+};
 
 export default (state = [], action) => {
   switch (action.type) {
     case ADD_PERSON:
-      return [...state, action.person];
+      return [...state, person(action.payload)];
     default:
       return state;
   }
