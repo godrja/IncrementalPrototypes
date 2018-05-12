@@ -7,17 +7,17 @@ import './Management.css'
 import {person} from "../game";
 
 function PersonProfile(props) {
-  const job = person(props.person).currentJob(props.jobs);
+  const activity = person(props.person).currentActivity(props.activities);
   return (
     <Card>
       <CardTitle>{props.person.name}</CardTitle>
-      <div>He is working very hard on {job.type} ({job.done} ticks completed}</div>
+      <div>He is working very hard on {activity.type} ({activity.done} ticks completed}</div>
     </Card>
   )
 }
 PersonProfile.propTypes = {
   person: PropTypes.object.isRequired,
-  jobs: PropTypes.array.isRequired
+  activities: PropTypes.array.isRequired
 };
 
 class Management extends React.Component {
@@ -61,7 +61,7 @@ class Management extends React.Component {
             <h1>List of all people</h1>
             <ListGroup>
               {this.props.people.map((person, i) =>
-                <ListGroupItem key={i}><PersonProfile person={person} jobs={this.props.jobs}/></ListGroupItem>)}
+                <ListGroupItem key={i}><PersonProfile person={person} activities={this.props.activities}/></ListGroupItem>)}
             </ListGroup>
           </TabPane>
           <TabPane tabId="dev">
@@ -74,6 +74,6 @@ class Management extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => ({ tickCount: state.tick, people: state.people, jobs: state.jobs });
+const mapStateToProps = (state) => ({ tickCount: state.tick, people: state.people, activities: state.activities });
 
 export default connect(mapStateToProps)(Management);
