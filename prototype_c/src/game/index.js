@@ -5,3 +5,7 @@ export function getCurrentActivityOf(personId, activities) {
 export function person(person) {
   return { currentActivity: getCurrentActivityOf.bind(this, person.id) }
 }
+
+export default class Game {
+
+}

@@ -1,5 +1,5 @@
 import React from 'react';
-import {Nav, NavItem, NavLink, TabContent, TabPane, ListGroup, ListGroupItem, Card, CardTitle} from 'reactstrap';
+import {Nav, NavItem, NavLink, TabContent, TabPane, ListGroup, ListGroupItem, Card, CardTitle, Button} from 'reactstrap';
 import {connect} from "react-redux";
 import PropTypes from 'prop-types';
 
@@ -70,6 +70,7 @@ class Management extends React.Component {
           <TabPane tabId="dev">
             <h1>Useful development information</h1>
             Tick count: {this.props.tickCount}{' '}
+            <Button color="primary">Log state</Button>{' '}
           </TabPane>
         </TabContent>
       </div>

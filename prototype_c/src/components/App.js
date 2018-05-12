@@ -16,11 +16,6 @@ class App extends Component {
         <Container>
           <Row>
             <Col>
-              <Button color="primary">Log state</Button>{' '}
-            </Col>
-          </Row>
-          <Row>
-            <Col>
               <Management/>
             </Col>
           </Row>
