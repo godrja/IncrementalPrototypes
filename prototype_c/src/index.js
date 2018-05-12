@@ -27,23 +27,19 @@ const store = createStore(
 
 if (!store.getState().people || !store.getState().people.length) {
   store.dispatch(addPerson('Fyodor', 'Ignatyevitch'));
-  store.dispatch(addActivity('gathering', [store.getState().people[0].id]));
+  store.dispatch(addActivity('gathering', store.getState().people[0].id));
 }
 
 function progressActivities(state) {
   state.activities.forEach((activity) => {
-    if (activity.peopleIds.length) {
-      store.dispatch(progressActivity(activity.id))
-    }
+    store.dispatch(progressActivity(activity.id))
   });
 }
 
 function completeActivities(state) {
   state.activities.forEach((activity) => {
-    if (activity.peopleIds.length) {
-      if (activity.type === 'gathering' && activity.done >= 1200) {
-        store.dispatch(resetActivity(activity.id));
-      }
+    if (activity.type === 'gathering' && activity.done >= 1200) {
+      store.dispatch(resetActivity(activity.id));
     }
   });
 }
@@ -53,6 +49,7 @@ function saveGame(state) {
 
   localStorage.setItem('gameState', JSON.stringify(state));
   log.debug('Game saved');
+  log.debug(state);
 }
 
 function loadGame() {

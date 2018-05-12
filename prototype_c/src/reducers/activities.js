@@ -17,7 +17,7 @@ export default function (state = [], action) {
 
   switch (action.type) {
     case ADD_ACTIVITY:
-      return [...state, {id: nextActivityId(), type: action.payload.type, done: 0, peopleIds: action.payload.peopleIds}];
+      return [...state, {id: nextActivityId(), type: action.payload.type, done: 0, personId: action.payload.personId}];
     case PROGRESS_ACTIVITY:
       return updateActivity(action.payload.activityId, state, activity => ({done: activity.done + action.payload.units}));
     case RESET_ACTIVITY:

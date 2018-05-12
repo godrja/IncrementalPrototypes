@@ -1,10 +1,7 @@
 export function getCurrentActivityOf(personId, activities) {
-  return activities.find((activity) =>
-    activity.peopleIds.includes(personId));
+  return activities.find( (activity) => activity.personId === personId );
 }
 
 export function person(person) {
-  return {
-    currentActivity: getCurrentActivityOf.bind(this, person.id)
-  }
+  return { currentActivity: getCurrentActivityOf.bind(this, person.id) }
 }

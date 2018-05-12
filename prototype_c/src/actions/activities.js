@@ -6,13 +6,13 @@ export const RESET_ACTIVITY = 'TYPE_ACTIVITY_RESET';
 
 /**
  * @param {string} type Activity type
- * @param peopleIds array Array of people ids that should be assigned to this job
- * @returns {{type: string, doLog: boolean, payload: {type: *, peopleIds: *}}}
+ * @param {string} personId Person id that should be assigned to this job
+ * @returns {{type: string, doLog: boolean, payload: {type: *, personId: *}}}
  */
-export function addActivity(type, peopleIds) {
-  check.assert.array(peopleIds);
+export function addActivity(type, personId) {
+  check.assert.string(personId);
   return {
-    type: ADD_ACTIVITY, doLog: true, payload: {type, peopleIds}
+    type: ADD_ACTIVITY, doLog: true, payload: {type, personId}
   }
 }
 
