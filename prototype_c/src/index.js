@@ -5,24 +5,24 @@ import registerServiceWorker from './registerServiceWorker';
 import {createStore, applyMiddleware} from 'redux'
 import {Provider} from 'react-redux'
 import {createLogger} from 'redux-logger'
+import log from 'loglevel';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 import App from './components/App.js';
 import rootReducer from './reducers'
-import GameTimer from './game/GameTimer.js'
+import GameTimer from './game/GameTimer'
 import {GAME_TICK} from "./actions";
 import {addPerson} from "./actions/person";
 import {addJob, progressJob, resetJob} from "./actions/jobs";
 
-const logger = createLogger({
-  'predicate': (getState, action) => {
-    return action.doLog;
-  }
-});
+log.setDefaultLevel("debug");
+
 const store = createStore(
   rootReducer,
   loadGame(),
-  applyMiddleware(logger)
+  applyMiddleware(createLogger({
+    'predicate': (getState, action) => action.doLog
+  }))
 );
 
 if (!store.getState().people || !store.getState().people.length) {
@@ -52,7 +52,7 @@ function saveGame(state) {
   if (state.tick % 120) return;
 
   localStorage.setItem('gameState', JSON.stringify(state));
-  console.log('game saved')
+  log.debug('Game saved');
 }
 
 function loadGame() {

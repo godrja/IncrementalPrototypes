@@ -1,10 +1,11 @@
 {
-  "name": "prototype_a",
+  "name": "prototype_c",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
     "bootstrap": "^4.1.1",
     "check-types": "^7.3.0",
+    "loglevel": "^1.6.1",
     "prop-types": "^15.6.1",
     "react": "^16.3.2",
     "react-dom": "^16.3.2",
