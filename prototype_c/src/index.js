@@ -31,7 +31,7 @@ const store = createStore(
 );
 
 function isGameInitialized(state) {
-  return state.tick === 0;
+  return state.tick > 0;
 }
 if (!isGameInitialized(store.getState())) { initialize(store) }
 
