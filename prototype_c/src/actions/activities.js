@@ -21,5 +21,5 @@ export function progressActivity(activityId, units = 1) {
 }
 
 export function resetActivity(activityId) {
-  return {type: RESET_ACTIVITY, payload: {activityId: activityId}}
+  return {type: RESET_ACTIVITY, doLog: true, payload: {activityId: activityId}}
 }

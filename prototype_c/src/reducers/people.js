@@ -1,17 +1,5 @@
-import {ADD_PERSON} from '../actions/person';
+import { combineReducers } from 'redux';
+import profiles from "./profiles";
+import activities from "./activities";
 
-const person = (payload) => {
-  return {
-    id: payload.id,
-    name: payload.name
-  };
-};
-
-export default (state = [], action) => {
-  switch (action.type) {
-    case ADD_PERSON:
-      return [...state, person(action.payload)];
-    default:
-      return state;
-  }
-}
+export default combineReducers({ profiles, activities });

@@ -17,6 +17,11 @@ import {addActivity, progressActivity, resetActivity} from "./actions/activities
 
 log.setDefaultLevel("debug");
 
+function initialize(store) {
+  store.dispatch(addPerson('Fyodor', 'Ignatyevitch'));
+  store.dispatch(addActivity('gathering', store.getState().people.profiles[0].id));
+}
+
 const store = createStore(
   rootReducer,
   loadGame(),
@@ -25,19 +30,19 @@ const store = createStore(
   }))
 );
 
-if (!store.getState().people || !store.getState().people.length) {
-  store.dispatch(addPerson('Fyodor', 'Ignatyevitch'));
-  store.dispatch(addActivity('gathering', store.getState().people[0].id));
+function isGameInitialized(state) {
+  return state.tick === 0;
 }
+if (!isGameInitialized(store.getState())) { initialize(store) }
 
 function progressActivities(state) {
-  state.activities.forEach((activity) => {
+  state.people.activities.forEach((activity) => {
     store.dispatch(progressActivity(activity.id))
   });
 }
 
 function completeActivities(state) {
-  state.activities.forEach((activity) => {
+  state.people.activities.forEach((activity) => {
     if (activity.type === 'gathering' && activity.done >= 1200) {
       store.dispatch(resetActivity(activity.id));
     }
@@ -54,7 +59,6 @@ function saveGame(state) {
 
 function loadGame() {
   const state = localStorage.getItem('gameState');
-  // const state = "{}";
   return state ? JSON.parse(state) : {};
 }
 

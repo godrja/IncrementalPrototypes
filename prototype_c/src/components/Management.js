@@ -11,10 +11,11 @@ function PersonProfile(props) {
   return (
     <Card>
       <CardTitle>{props.person.name}</CardTitle>
-      <div>He is working very hard on {activity.type} ({activity.done} ticks completed}</div>
+      <div>He is working very hard on {activity.type} ({activity.done} ticks completed)</div>
     </Card>
   )
 }
+
 PersonProfile.propTypes = {
   person: PropTypes.object.isRequired,
   activities: PropTypes.array.isRequired
@@ -44,14 +45,14 @@ class Management extends React.Component {
           <NavItem>
             <NavLink
               className={this.state.activeTab === 'people' ? 'active' : null}
-              onClick={ this.selectTab.bind(this, 'people') }>
+              onClick={this.selectTab.bind(this, 'people')}>
               People
             </NavLink>
           </NavItem>
           <NavItem>
             <NavLink
               className={this.state.activeTab === 'dev' ? 'active' : null}
-              onClick={ this.selectTab.bind(this, 'dev') }>
+              onClick={this.selectTab.bind(this, 'dev')}>
               Development
             </NavLink>
           </NavItem>
@@ -61,7 +62,9 @@ class Management extends React.Component {
             <h1>List of all people</h1>
             <ListGroup>
               {this.props.people.map((person, i) =>
-                <ListGroupItem key={i}><PersonProfile person={person} activities={this.props.activities}/></ListGroupItem>)}
+                <ListGroupItem key={i}><PersonProfile person={person}
+                                                      activities={this.props.activities}/>
+                </ListGroupItem>)}
             </ListGroup>
           </TabPane>
           <TabPane tabId="dev">
@@ -74,6 +77,10 @@ class Management extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => ({ tickCount: state.tick, people: state.people, activities: state.activities });
+const mapStateToProps = (state) => ({
+  tickCount: state.tick,
+  people: state.people.profiles,
+  activities: state.people.activities
+});
 
 export default connect(mapStateToProps)(Management);
