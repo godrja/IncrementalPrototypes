@@ -1,19 +1,12 @@
-import {addPerson} from "../actions/person";
-import {addActivity, progressActivity, resetActivity} from "../actions/activities";
+import {addPerson} from "../actions/people";
 import {applyMiddleware, createStore} from "redux";
 import {createLogger} from "redux-logger";
 import rootReducer from "../reducers";
 import log from "loglevel"
 import GameTimer from "./GameTimer";
 import {GAME_TICK} from "../actions";
-
-export function getCurrentActivityOf(personId, activities) {
-  return activities.find((activity) => activity.personId === personId);
-}
-
-export function person(person) {
-  return {currentActivity: getCurrentActivityOf.bind(this, person.id)}
-}
+import {nextId} from "../utils";
+import {updateItemCountInStorage} from "../actions/storage";
 
 export function initializeGame() {
   function createGameStore() {
@@ -35,8 +28,9 @@ export function initializeGame() {
   }
 
   function initialize(store) {
-    store.dispatch(addPerson('Fyodor', 'Ignatyevitch'));
-    store.dispatch(addActivity('gathering', store.getState().people.profiles[0].id));
+    const fyodorId = nextId('person', 'fyodor');
+    store.dispatch(addPerson(fyodorId, 'Fyodor Ignatyevitch'));
+    store.dispatch(updateItemCountInStorage("branch"));
   }
 
   const store = createGameStore();
@@ -50,20 +44,6 @@ export function initializeGame() {
 }
 
 export function startGame(store) {
-  function progressActivities(state) {
-    state.people.activities.forEach((activity) => {
-      store.dispatch(progressActivity(activity.id))
-    });
-  }
-
-  function completeActivities(state) {
-    state.people.activities.forEach((activity) => {
-      if (activity.type === 'gathering' && activity.done >= 1200) {
-        store.dispatch(resetActivity(activity.id));
-      }
-    });
-  }
-
   function saveGame(state) {
     if (state.tick % 120) return;
 
@@ -75,8 +55,14 @@ export function startGame(store) {
   GameTimer.startTicking(() => {
     store.dispatch({type: GAME_TICK});
     const state = store.getState();
-    progressActivities(state);
-    completeActivities(state);
     saveGame(state);
   });
 }
+
+// STORAGE module functions
+const allItems = (state) => state.allIds.map((id) => state.byId[id]);
+export const storage = (state) => {
+  return {
+    allItems: () => allItems(state)
+  }
+};
