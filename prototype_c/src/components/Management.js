@@ -2,7 +2,7 @@ import React from 'react';
 import {Nav, NavItem, NavLink, TabContent, TabPane, ListGroup, ListGroupItem, Card, CardTitle, Button} from 'reactstrap';
 import {connect} from "react-redux";
 import PropTypes from 'prop-types';
-import {storage} from "../game";
+import {getAllPeople, getAllStorageItems, storage} from "../game";
 
 import './Management.css'
 
@@ -75,7 +75,7 @@ class Management extends React.Component {
           <TabPane tabId="people">
             <h1>List of all people</h1>
             <ListGroup>
-              {this.props.people.map((person, i) =>
+              {getAllPeople(this.props.people).map((person, i) =>
                 <ListGroupItem key={i}><PersonProfile person={person}
                                                       activity={this.props.activities[person.id]}/>
                 </ListGroupItem>)}
@@ -84,7 +84,7 @@ class Management extends React.Component {
           <TabPane tabId="storage">
             <h1>Here all you've got in your storage</h1>
             <ListGroup>
-              {storage(this.props.storage).allItems()
+              {getAllStorageItems(this.props.storage)
                 .map((item) => (<ListGroupItem key={item.id}> {item.id}: {item.count} </ListGroupItem>))}
             </ListGroup>
           </TabPane>

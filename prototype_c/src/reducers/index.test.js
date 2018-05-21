@@ -3,8 +3,11 @@ import {createStore} from "redux";
 import {addPerson, switchActivity} from "../actions/people"
 import {updateItemCountInStorage} from "../actions/storage"
 
-function createTestStore() {
-  return createStore(rootReducers)
+const withJohnDoe = (store) => { store.dispatch(addPerson("john_0", "John Doe")) };
+function createTestStore(...fns) {
+  const store = createStore(rootReducers);
+  fns.forEach((fn) => fn(store));
+  return store
 }
 
 test('Correct initial state', () => {
@@ -21,8 +24,7 @@ test('Correct initial state', () => {
 });
 
 test("One person added", () => {
-  const store = createTestStore();
-  store.dispatch(addPerson("john_0", "John Doe"));
+  const store = createTestStore(withJohnDoe);
 
   expect(store.getState()).toEqual(
     {
@@ -42,9 +44,8 @@ test("One person added", () => {
     })
 });
 
-test("Person changed activity", () => {
-  const store = createTestStore();
-  store.dispatch(addPerson("john_0", "John Doe"));
+test("Change person's activity", () => {
+  const store = createTestStore(withJohnDoe);
   store.dispatch(switchActivity("john_0", "gathering"));
 
   expect(store.getState()).toEqual(
@@ -88,5 +89,10 @@ test("Add more items of a type into the storage", () => {
     },
     allIds: ["branch"]
   });
+});
 
+test("Change activity to gathering and return to idle after 1000 ticks", () => {
+  const store = createTestStore(withJohnDoe);
+
+  //TODO: Test and implement that.
 });
