@@ -2,6 +2,7 @@ import rootReducers from './index.js'
 import {createStore} from "redux";
 import {addPerson, switchActivity} from "../actions/people"
 import {updateItemCountInStorage} from "../actions/storage"
+import {GAME_TICK} from "../actions";
 
 const withJohnDoe = (store) => { store.dispatch(addPerson("john_0", "John Doe")) };
 function createTestStore(...fns) {
@@ -88,6 +89,8 @@ test("Add more items of a type into the storage", () => {
 
 test("Change activity to gathering and return to idle after 1000 ticks", () => {
   const store = createTestStore(withJohnDoe);
-  game(store).getPerson("john_0");
+  store.dispatch({type: GAME_TICK});
+
+  expect(store.getState().people.byId["john_0"].activity.type).toBe("gathering");
   //TODO: Test and implement that.
 });
