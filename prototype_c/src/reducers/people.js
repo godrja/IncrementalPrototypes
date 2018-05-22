@@ -1,31 +1,51 @@
-import { combineReducers } from 'redux';
 import {ADD_PERSON, SWITCH_ACTIVITY} from '../actions/people';
+import {combineReducers} from "redux";
 
-function profile(payload) {
-  return {
-    id: payload.id,
-    name: payload.name
-  };
-}
+const createActivity = (type = "idle") => ({type});
+const createPerson = (id, name, activity = createActivity()) => ({id, name, activity});
 
-const profiles = (state = [], action) => {
-  switch (action.type) {
-    case ADD_PERSON:
-      return [...state, profile(action.payload)];
+const personReducer = (state, action) => {
+  const {type, payload} = action;
+  switch (type) {
+    case ADD_PERSON: {
+      const {id, name} = payload;
+      return createPerson(id, name);
+    }
+    case SWITCH_ACTIVITY: {
+      const {activityType} = payload;
+      return {...state, activity: createActivity(activityType)}
+    }
     default:
       return state;
   }
 };
 
-const activities = (state = {}, action) => {
-  switch (action.type) {
-    case ADD_PERSON:
-      return {...state, [action.payload.id]: { type: 'idle' }};
-    case SWITCH_ACTIVITY:
-      return {...state, [action.payload.personId]: action.payload.activity };
+const byId = (state = {}, action) => {
+  const {type, payload} = action;
+
+  switch (type) {
+    case ADD_PERSON: {
+      const {id} = payload;
+      return {...state, [id]: personReducer({}, action)};
+    }
+    case SWITCH_ACTIVITY: {
+      const {personId} = payload;
+      return {...state, [personId]: personReducer(state[personId], action) };
+    }
     default:
       return state;
   }
 };
 
-export default combineReducers({ profiles, activities });
+const allIds = (state = [], action) => {
+  const {type, payload} = action;
+  switch (type) {
+    case ADD_PERSON:
+      const {id} = payload;
+      return [...state, id];
+    default:
+      return state;
+  }
+};
+
+export default combineReducers({byId, allIds});

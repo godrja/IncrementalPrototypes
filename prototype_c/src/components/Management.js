@@ -2,7 +2,7 @@ import React from 'react';
 import {Nav, NavItem, NavLink, TabContent, TabPane, ListGroup, ListGroupItem, Card, CardTitle, Button} from 'reactstrap';
 import {connect} from "react-redux";
 import PropTypes from 'prop-types';
-import {getAllPeople, getAllStorageItems, storage} from "../game";
+import {getAllItemsInNaturalOrder} from "../game";
 
 import './Management.css'
 
@@ -18,7 +18,7 @@ function PersonProfile(props) {
   return (
     <Card>
       <CardTitle>{props.person.name}</CardTitle>
-      <div>He is working very hard on {describeActivity(props.activity.type)}</div>
+      <div>He is working very hard on {describeActivity(props.person.activity.type)}</div>
     </Card>
   )
 }
@@ -46,6 +46,7 @@ class Management extends React.Component {
   }
 
   render() {
+    const {people, tickCount, storage} = this.props;
     return (
       <div>
         <Nav tabs>
@@ -75,16 +76,15 @@ class Management extends React.Component {
           <TabPane tabId="people">
             <h1>List of all people</h1>
             <ListGroup>
-              {getAllPeople(this.props.people).map((person, i) =>
-                <ListGroupItem key={i}><PersonProfile person={person}
-                                                      activity={this.props.activities[person.id]}/>
+              {getAllItemsInNaturalOrder(people).map((person, i) =>
+                <ListGroupItem key={i}><PersonProfile person={person}/>
                 </ListGroupItem>)}
             </ListGroup>
           </TabPane>
           <TabPane tabId="storage">
             <h1>Here all you've got in your storage</h1>
             <ListGroup>
-              {getAllStorageItems(this.props.storage)
+              {getAllItemsInNaturalOrder(storage)
                 .map((item) => (<ListGroupItem key={item.id}> {item.id}: {item.count} </ListGroupItem>))}
             </ListGroup>
           </TabPane>
@@ -101,8 +101,7 @@ class Management extends React.Component {
 
 const mapStateToProps = (state) => ({
   tickCount: state.tick,
-  people: state.people.profiles,
-  activities: state.people.activities,
+  people: state.people,
   storage: state.storage
 });
 

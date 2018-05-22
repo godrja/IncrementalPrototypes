@@ -14,10 +14,7 @@ test('Correct initial state', () => {
   expect(createTestStore().getState()).toEqual(
     {
       "tick": 0,
-      "people": {
-        "profiles": [],
-        "activities": {}
-      },
+      "people": {byId: {}, allIds: []},
       "storage": {byId: {}, allIds: []}
     }
   );
@@ -30,15 +27,14 @@ test("One person added", () => {
     {
       "tick": 0,
       "people": {
-        "profiles": [
-          {
+        byId: {
+          "john_0": {
             id: "john_0",
-            name: "John Doe"
+            name: "John Doe",
+            activity: { type: "idle" }
           }
-        ],
-        "activities": {
-          "john_0": {type: "idle"}
-        }
+        },
+        allIds: ["john_0"]
       },
       "storage": {byId: {}, allIds: []}
     })
@@ -52,15 +48,14 @@ test("Change person's activity", () => {
     {
       "tick": 0,
       "people": {
-        "profiles": [
-          {
+        byId: {
+          "john_0": {
             id: "john_0",
-            name: "John Doe"
+            name: "John Doe",
+            activity: { type: "gathering" }
           }
-        ],
-        "activities": {
-          "john_0": {type: "gathering"}
-        }
+        },
+        allIds: ["john_0"]
       },
       "storage": {byId: {}, allIds: []}
     })
@@ -93,6 +88,6 @@ test("Add more items of a type into the storage", () => {
 
 test("Change activity to gathering and return to idle after 1000 ticks", () => {
   const store = createTestStore(withJohnDoe);
-
+  game(store).getPerson("john_0");
   //TODO: Test and implement that.
 });

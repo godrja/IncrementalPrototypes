@@ -59,9 +59,4 @@ export function startGame(store) {
   });
 }
 
-// PEOPLE module functions
-export const getAllPeople = (state) => state; // TODO: This is a stub for more reasonable implementation
-
-
-// STORAGE module functions
-export const getAllStorageItems = (state) => state.allIds.map((id) => state.byId[id]);
+export const getAllItemsInNaturalOrder = (state) => state.allIds.map((id) => state.byId[id]);

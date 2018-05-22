@@ -5,7 +5,7 @@ export function addPerson(id, name) {
   return {
     doLog: true,
     type: ADD_PERSON,
-    payload: { id, name }
+    payload: {id, name}
   }
 }
 
@@ -16,5 +16,5 @@ export function addPerson(id, name) {
  * @returns {{type: *}}
  */
 export function switchActivity(personId, activityType) {
-  return { type: SWITCH_ACTIVITY, payload: { personId, activity: { type: activityType }} }
+  return {type: SWITCH_ACTIVITY, payload: {personId, activityType}}
 }
