@@ -5,26 +5,21 @@ import {GAME_TICK} from "../actions";
 import tick from "./tick";
 import {switchActivity} from "../actions/people";
 import {getAllItemsInNaturalOrder} from "../game";
+import * as gameRules from "../game/GameRules";
 
-const rootReducer = (state, action) =>
-  combineReducers({tick, people, storage})(state, action);
 
-const switchActivityForPerson = person =>
-  switchActivity(person.id, person.activity.type === "idle" ? "gathering" : "idle");
-
-const switchActivityActionReducer = (actions, person) => {
-  actions.push(switchActivityForPerson(person));
-  return actions;
-};
-
-const someGameThing = state =>
-  getAllItemsInNaturalOrder(state.people)
-    .reduce(switchActivityActionReducer, []);
+const rootReducer = combineReducers({tick, people, storage});
 
 const gameTick = (state) => {
-  const actionsToState = (state, action) => rootReducer(state, action);
-  const functionsToState = (state, fn) => fn(state).reduce(actionsToState, state);
-  return [someGameThing].reduce(functionsToState, state);
+
+  const switchActivityForPerson = person =>
+    switchActivity(person.id, person.activity.type === "idle" ? "gathering" : "idle");
+
+  const switchActionsForAllPeople = state =>
+    getAllItemsInNaturalOrder(state.people)
+      .map((person) => switchActivityForPerson(person));
+
+  return gameRules.nextState([switchActionsForAllPeople], state, rootReducer);
 };
 
 export default function (state, action) {
