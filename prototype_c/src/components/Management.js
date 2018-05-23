@@ -2,7 +2,7 @@ import React from 'react';
 import {Nav, NavItem, NavLink, TabContent, TabPane, ListGroup, ListGroupItem, Card, CardTitle, Button} from 'reactstrap';
 import {connect} from "react-redux";
 import PropTypes from 'prop-types';
-import {getAllItemsInNaturalOrder} from "../game";
+import {getAllItemsInNaturalOrder} from "../game/gameState";
 
 import './Management.css'
 

@@ -3,6 +3,7 @@ import {createStore} from "redux";
 import {addPerson, switchActivity} from "../actions/people"
 import {updateItemCountInStorage} from "../actions/storage"
 import {GAME_TICK} from "../actions";
+import gameState from "../game/gameState";
 
 const withJohnDoe = (store) => { store.dispatch(addPerson("john_0", "John Doe")) };
 function createTestStore(...fns) {
@@ -12,7 +13,9 @@ function createTestStore(...fns) {
 }
 
 test('Correct initial state', () => {
-  expect(createTestStore().getState()).toEqual(
+  const store = createTestStore();
+
+  expect(store.getState()).toEqual(
     {
       "tick": 0,
       "people": {byId: {}, allIds: []},
@@ -43,7 +46,7 @@ test("One person added", () => {
 
 test("Change person's activity", () => {
   const store = createTestStore(withJohnDoe);
-  store.dispatch(switchActivity("john_0", "gathering"));
+  store.dispatch(switchActivity("john_0", "gathering", 0));
 
   expect(store.getState()).toEqual(
     {
@@ -87,10 +90,15 @@ test("Add more items of a type into the storage", () => {
   });
 });
 
-test("Change activity to gathering and return to idle after 1000 ticks", () => {
+test("Change activity to gathering and return to idle after 30 ticks", () => {
   const store = createTestStore(withJohnDoe);
+
   store.dispatch({type: GAME_TICK});
 
-  expect(store.getState().people.byId["john_0"].activity.type).toBe("gathering");
+  const people = gameState(store.getState()).getPeople();
+  const johnDoe = people.findByName("John Doe");
+
+  expect(johnDoe.activity.type).toBe("gathering");
+
   //TODO: Test and implement that.
 });

@@ -13,8 +13,9 @@ export function addPerson(id, name) {
  * Switch activity of a person
  * @param {string} personId Id of the person who's activity has to be updated
  * @param {string} activityType Type of the activity ("idle", "gathering", etc.)
+ * @param {number} startTime Time when the activity started
  * @returns {{type: *}}
  */
-export function switchActivity(personId, activityType) {
-  return {type: SWITCH_ACTIVITY, payload: {personId, activityType}}
+export function switchActivity(personId, activityType, startTime) {
+  return {type: SWITCH_ACTIVITY, payload: {personId, activityType, startTime}}
 }

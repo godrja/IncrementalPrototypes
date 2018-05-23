@@ -59,4 +59,4 @@ export function startGame(store) {
   });
 }
 
-export const getAllItemsInNaturalOrder = (state) => state.allIds.map((id) => state.byId[id]);
+

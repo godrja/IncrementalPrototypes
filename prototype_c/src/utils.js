@@ -21,3 +21,13 @@ export function nextId(type, prefix) {
 export const withDefault = (defaultValue) =>
   (value = defaultValue) => value;
 
+export function traceFn(fn) {
+  return (...args) => {
+    console.log(fn.toString());
+    console.log(args);
+    const value = fn(...args);
+    console.log(value);
+    return value;
+  }
+}
+

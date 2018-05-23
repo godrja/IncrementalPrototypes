@@ -4,27 +4,27 @@ import storage from "./storage";
 import {GAME_TICK} from "../actions";
 import tick from "./tick";
 import {switchActivity} from "../actions/people";
-import {getAllItemsInNaturalOrder} from "../game";
-import * as gameRules from "../game/GameRules";
+import * as gameRules from "../game/gameRules";
+import gameState from "../game/gameState"
 
 function processGameTick(state, rootReducer) {
   const switchActivityForPerson = person =>
-    switchActivity(person.id, person.activity.type === "idle" ? "gathering" : "idle");
+    switchActivity(person.id, person.activity.type === "idle" ? "gathering" : "idle", state.tickCount);
 
   const switchActionsForAllPeople = state =>
-    getAllItemsInNaturalOrder(state.people)
-      .map((person) => switchActivityForPerson(person));
+    gameState(state).getPeople().map((person) => switchActivityForPerson(person));
 
+  console.log(gameState(state).getPeople());
   return gameRules.nextState([switchActionsForAllPeople], state, rootReducer);
 }
 
-export default function (state, action) {
-  const rootReducer = combineReducers({tick, people, storage});
+export default function rootReducer(state, action) {
+  const generalReducer = combineReducers({tick, people, storage});
   const {type} = action;
   switch (type) {
     case GAME_TICK:
-      return processGameTick(state, rootReducer);
+      return processGameTick(state, generalReducer);
     default:
-      return rootReducer;
+      return generalReducer(state, action);
   }
 }
